@@ -1,0 +1,16 @@
+/* src/components/SidebarOption/SidebarOption.css */
+.chart-option-wrapper {
+display: flex;
+align-items: center;
+cursor: pointer;
+}
+
+.image-wrapper {
+margin-right: 10px; /* Adjust margin as needed */
+}
+
+.image {
+max-width: 100px;
+max-height: 100px;
+}
+  
