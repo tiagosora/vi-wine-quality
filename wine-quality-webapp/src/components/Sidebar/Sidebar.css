@@ -1,6 +1,13 @@
-.option {
-    text-align: center;
-    align-content: center;
-    padding-left: auto;
-    padding-right: auto;
+.home_text {
+    font-family: 'Dancing Script', 'Open Sans', sans-serif;
+    font-size: xx-large;
+}
+
+.logo {
+    display: flex;
+    align-items: flex-end;
+}
+
+.logopng {
+    width: 60%;
 }
