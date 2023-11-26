@@ -1,0 +1,43 @@
+
+.chart-title {
+    font-family: 'Dancing Script', 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 300%;
+    color: black;
+    font: bold;
+}
+
+.chart-conclusions {
+    font-family: 'Dancing Script', 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 200%;
+    color: black;
+    font: bold;
+}
+
+.conclusions {
+    text-align: center;
+}
+  
+.dropdown-container {
+    text-align: right;
+    margin-right: 20px;
+}
+
+    .custom-dropdown {
+    width: 250px;
+    padding: 5px;
+    margin-top: 15px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    background-color: white;
+}
+
+    .dropdown {
+    width: 100%;
+}
+
+    .dropdown label {
+    display: inline-block;
+    margin-right: 10px;
+}
