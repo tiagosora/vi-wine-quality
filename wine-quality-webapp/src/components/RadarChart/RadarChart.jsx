@@ -32,6 +32,17 @@ const RadarChart = ({ red_wine_dataset, white_wine_dataset }) => {
     { key: "alcohol", name: "Alcohol" },
   ];
 
+  const conclusions = {
+    "All": "With all the qualities selected, we can see that the red wine has higher mean stats than the white wine, in every stat but Residual Sugar, Citric Acid, Alcohol and Free/Total Sulfur Dioxide.",
+    3: "In wines with quality 3, the evidencies show that the mean pH and density for the read wine are basicly double of the white wine and for the volatile acidity it is an absurd difference.",
+    4: "In wines with qualtiy 4, the same evidencies are shown in quality 3.",
+    5: "In wines with qualtiy 5, the same evidencies are shown in quality 3 and 4.",
+    6: "In wines with qualtiy 6, the same evidencies are shown, but we can see the sulfur values beign a lot different from the two wines, with the white wine having the bigger values.",
+    7: "In wines with qualtiy 7, the same evidencies are shown and we can se that the red wine plot seems half a circle, meaning that the values are very similar in terms of % to the biggest registred.",
+    8: "In wines with qualtiy 8, the same evidencies are shown in quality 5 and residual sugar shows as a atributte with stronger values in the white wine.",
+    9: "In wines with qualtiy 9, we only have white wine, so we can't compare the two.",
+  };
+
   const combinedQualityValues = Array.from(
     new Set(
       [...red_wine_dataset, ...white_wine_dataset].map((wine) => wine.quality)
@@ -116,7 +127,7 @@ const RadarChart = ({ red_wine_dataset, white_wine_dataset }) => {
   return (
     <div className="radarchart-content pl-20 p-4 shadow-lg rounded-lg">
       <div className="chart-title">
-        <h2>Wine Attributes</h2>
+        <h2>Wine Radar Attributes</h2>
       </div>
       <div className="dropdown-container">
         <div className="dropdown">
@@ -166,7 +177,7 @@ const RadarChart = ({ red_wine_dataset, white_wine_dataset }) => {
         <h2>Conclusions</h2>
       </div>
       <div className="conclusions">
-        <p>{/* Conclusion text here */}</p>
+      <p>{conclusions[selectedValue]}</p>
       </div>
     </div>
   );

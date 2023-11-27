@@ -4,27 +4,76 @@ import "./ScatterPlot.css";
 
 const ScatterChart = ({ red_wine_dataset, white_wine_dataset }) => {
   const svgRef = useRef();
-  const [selectedCharacteristic, setSelectedCharacteristic] = useState('fixed_acidity');
-  const [selectedWineType, setSelectedWineType] = useState('red');
+  const [selectedCharacteristic, setSelectedCharacteristic] =
+    useState("fixed_acidity");
+  const [selectedWineType, setSelectedWineType] = useState("red");
   const margin = { top: 20, right: 20, bottom: 40, left: 50 };
   const width = 800 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
-  const mheight = height+margin.bottom+40
+  const mheight = height + margin.bottom + 40;
 
   const characteristics = [
-    {key: "fixed_acidity", name: "Fixed Acidity"},
-    {key: "volatile_acidity", name: "Volatile Acidity"},
-    {key: "citric_acid", name: "Citric Acid"},
-    {key: "residual_sugar", name: "Residual Sugar"},
-    {key: "chlorides", name: "Chlorides"},
-    {key: "free_sulfur_dioxide", name: "Free Sulfur Dioxide"},
-    {key: "total_sulfur_dioxide", name: "Total Sulfur Dioxide"},
-    {key: "density", name: "Density"},
-    {key: "pH", name: "Potential of Hydrogen (pH)"},
-    {key: "sulphates", name: "Sulphates"},
-    {key: "alcohol", name: "Alcohol"},
-    {key: "quality", name: "Quality"},
+    { key: "fixed_acidity", name: "Fixed Acidity" },
+    { key: "volatile_acidity", name: "Volatile Acidity" },
+    { key: "citric_acid", name: "Citric Acid" },
+    { key: "residual_sugar", name: "Residual Sugar" },
+    { key: "chlorides", name: "Chlorides" },
+    { key: "free_sulfur_dioxide", name: "Free Sulfur Dioxide" },
+    { key: "total_sulfur_dioxide", name: "Total Sulfur Dioxide" },
+    { key: "density", name: "Density" },
+    { key: "pH", name: "Potential of Hydrogen (pH)" },
+    { key: "sulphates", name: "Sulphates" },
+    { key: "alcohol", name: "Alcohol" },
   ];
+
+  const conclusions = {
+    red: {
+      fixed_acidity:
+        "The fixed acidity values of the red wine are well distributed, but show big preference on quality 5 and 6.",
+      volatile_acidity:
+        "The volatile acidity values of the red wine are very well distributed, are mostly distributed in the quality 5 and 6, taking preference on values in range [0.2, 0.8]",
+      citric_acid:
+        "The citric acid values of the red wine are well distributed.",
+      residual_sugar:
+        "The residual sugar values of the red wine are not very well distributed, from values such as 0.9 to values like 15, with most o them in the range [1.5, 4] beign almost all of them in the quality 5 and 6.",
+      chlorides:
+        "The chlorides values of the red wine are not very well distributed, since for many different quality values, the values are very similar, taking preference on values in range [0.05, 0.15].",
+      free_sulfur_dioxide:
+        "The free sulfur dioxide values of the red wine are almost 50% on the quality 5 and 30% in quality 6.",
+      total_sulfur_dioxide:
+        "The total sulfur dioxide values of the red wine not are very well distributed, with the most heavy qualities having some pretty high values that are not very common in the other qualities.",
+      density:
+        "The density values of the red wine to be basicley the same, not meaning much to quality.",
+      pH: "The ph values of the red wine seem the be pretty balaced in most of the qualities.",
+      sulphates:
+        "The sulphates values of the red wine are very well distributed between the qualities 5, 6, 7 and 8.",
+      alcohol:
+        "The alcohol values of the red wine are very well distributed between the qualities 4, 5, 6, 7 and 8.",
+    },
+    white: {
+      fixed_acidity:
+        "The fixed acidity values of the white wine are well distributed, but show big preference on quality 5,6 and 7, having least apearence on quality 3 and 9",
+      volatile_acidity:
+        "The volatile acidity values of the white wine are very well distributed, having a lot of quality 8 wines, which is good, since it's the one of the best qualities.",
+      citric_acid:
+        "The citric acid values of the white wine tend to be 5 and 6 in quality, meaning that it is not the most important attribute.",
+      residual_sugar:
+        "The residual sugar values of the white wine are very well distributed in most qualities.",
+      chlorides:
+        "The chlorides values of the white wine are very well distributed in most qualities but have a bigger dispertion on the qualities 5 and 6.",
+      free_sulfur_dioxide:
+        "The free sulfur dioxide values of the white wine are very well distributed in most qualities.",
+      total_sulfur_dioxide:
+        "The total sulfur dioxide values of the white wine are very well distributed in most qualities but are more common in the qualities 5 and 6.",
+      density:
+        "The density values of the white wine are a little bit lower than in the red wine, but are very well distributed in most qualities.",
+      pH: "The ph values of the white wine are very well distributed and have a lot of wines in the quality 8, beign a good indicator.",
+      sulphates:
+        "The sulphates values of the white wine are very well distributed from qualities 4 to 8, meaning it is very volatile as quality attribute.",
+      alcohol:
+        "The alcohol values of the white wine are very well distributed from qualities 4 to 7.",
+    },
+  };
 
   useEffect(() => {
     if (!svgRef.current || !red_wine_dataset || !white_wine_dataset) {
@@ -44,142 +93,72 @@ const ScatterChart = ({ red_wine_dataset, white_wine_dataset }) => {
 
     const data =
       selectedWineType === "red" ? red_wine_dataset : white_wine_dataset;
-    const processedData = data.map((d) => ({
-      characteristic: d[selectedCharacteristic],
-      value: +d[selectedCharacteristic],
-    }));
-
-    let values_dict = {};
-    Object.entries(processedData).forEach(([key, entry])=> {
-      if (!values_dict.hasOwnProperty(entry.value)){
-        values_dict[entry.value] = 0
-      }
-      values_dict[entry.value] = values_dict[entry.value]+1
-    });
-
-    let values = []
-    Object.entries(values_dict).forEach(([k, v]) => {
-      values.push({x : k, y: v})
-    });
-
-    values.sort(function(a,b) {
-      return a.x-b.x
-    });
 
     const xScale = d3
-      .scaleBand()
-      .domain(values.map((d) => d.x))
-      .range([0, width])
-      .padding(0.1);
+      .scaleLinear()
+      .domain([
+        d3.min(data, (d) => +d[selectedCharacteristic]),
+        d3.max(data, (d) => +d[selectedCharacteristic]),
+      ])
+      .range([0, width]);
 
     const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(values, (d) => d.y)])
+      .domain([0, d3.max(data, (d) => +d.quality)])
       .range([height, 0]);
 
-    // Define a clipping path
-    svg
-      .append("defs")
-      .append("clipPath")
-      .attr("id", "chart-area")
-      .append("rect")
-      .attr("width", width)
-      .attr("height", height);
-
-    // Group for Scatters with clipping path applied
-    const ScattersGroup = chartGroup
-      .append("g")
-      .attr("clip-path", "url(#chart-area)");
-
-      ScattersGroup
-      .selectAll(".scatter")
-      .data(values)
+    chartGroup
+      .selectAll(".dot")
+      .data(data)
       .enter()
-      .append("rect")
-      .attr("class", "scatter")
-      .attr("x", (d) => xScale(d.x))
-      .attr("y", (d) => yScale(d.y))
-      .attr("width", xScale.bandwidth())
-      .attr("height", (d) => height - yScale(d.y))
-      .attr("fill", "#69b3a2");
+      .append("circle")
+      .attr("class", "dot")
+      .attr("cx", (d) => xScale(d[selectedCharacteristic]))
+      .attr("cy", (d) => yScale(d.quality))
+      .attr("r", 3)
+      .attr("fill", "#8F1636")
+      .on("mouseover", function (event, d) {
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .attr("r", 6)
+          .attr("fill", "orange");
+        // Tooltip code here
+      })
+      .on("mouseout", function (event, d) {
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .attr("r", 3)
+          .attr("fill", "#8F1636");
+        // Hide tooltip
+      });
 
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
 
-    // X-axis label
-    const xAxisLabel = chartGroup
-      .append("text")
-      .attr("x", width / 2)
-      .attr("y", height + margin.bottom - 10)
-      .style("text-anchor", "middle")
-      .text("Characteristic");
-
-    // Y-axis label
-    const yAxisLabel = chartGroup
-      .append("text")
-      .attr("x", -height / 2)
-      .attr("y", -margin.left)
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .attr("transform", "rotate(-90)")
-      .text("Value");
-
-    const gX = chartGroup
+    chartGroup
       .append("g")
       .attr("transform", `translate(0,${height})`)
       .call(xAxis);
 
     chartGroup.append("g").call(yAxis);
 
-    // Inside your useEffect
-    const zoom = d3
-      .zoom()
-      .scaleExtent([1, 20])
-      .extent([
-        [0, 0],
-        [width, height],
-      ])
-      .translateExtent([
-        [0, 0],
-        [width, height],
-      ])
-      .on("zoom", (event) => {
-        var t = event.transform;
-        xScale.range([0, width].map((d) => t.applyX(d)));
-        chartGroup
-          .selectAll(".scatter")
-          .attr("x", (d) => xScale(d.x))
-          .attr("width", xScale.bandwidth());
-        gX.call(xAxis.scale(xScale));
+    // Axis labels
+    chartGroup
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", height + margin.bottom - 10)
+      .style("text-anchor", "middle")
+      .text(selectedCharacteristic);
 
-        // Update x-axis label rotation based on the zoom level
-        const zoomLevel = event.transform.k;
-        if (zoomLevel <= 2) {
-          xAxisLabel.attr("transform", null); // Reset rotation
-        } else {
-          xAxisLabel.attr(
-            "transform",
-            `translate(${width / 2},${height + margin.bottom - 10}) rotate(-45)`
-          );
-        }
-
-        // Check if X-axis goes out of bounds and adjust the domain
-        const xDomain = xScale.domain().map((d) => {
-          // const scaledX = xScale(d);
-          // if (scaledX < 0) return xScale.invert(0);
-          // if (scaledX > width) return xScale.invert(width);
-          return d;
-        });
-
-        xScale.domain(xDomain);
-        gX.call(xAxis.scale(xScale));
-      });
-
-    svg.call(zoom);
-
-    return () => {
-      svg.on(".zoom", null);
-    };
+    chartGroup
+      .append("text")
+      .attr("x", -height / 2)
+      .attr("y", -margin.left + 20)
+      .attr("transform", "rotate(-90)")
+      .style("text-anchor", "middle")
+      .text("Quality");
   }, [
     selectedCharacteristic,
     selectedWineType,
@@ -190,31 +169,45 @@ const ScatterChart = ({ red_wine_dataset, white_wine_dataset }) => {
   return (
     <div className="content pl-20 p-4 shadow-lg rounded-lg bg-white overflow-auto">
       <div className="chart-title">
-        <h2>Wine Attributes</h2>
+        <h2>Wine Scatter Attributes</h2>
       </div>
       <div className="dropdown-container">
         <div className="dropdown">
           <label>Wine Type:</label>
-          <select value={selectedWineType} onChange={e => setSelectedWineType(e.target.value)} className="custom-dropdown">
+          <select
+            value={selectedWineType}
+            onChange={(e) => setSelectedWineType(e.target.value)}
+            className="custom-dropdown"
+          >
             <option value="red">Red</option>
             <option value="white">White</option>
           </select>
         </div>
         <div className="dropdown">
           <label>Characteristic:</label>
-          <select value={selectedCharacteristic} onChange={e => setSelectedCharacteristic(e.target.value)} className="custom-dropdown">
-            {characteristics.map(char => (
-              <option key={char.key} value={char.key}>{char.name}</option>
+          <select
+            value={selectedCharacteristic}
+            onChange={(e) => setSelectedCharacteristic(e.target.value)}
+            className="custom-dropdown"
+          >
+            {characteristics.map((char) => (
+              <option key={char.key} value={char.key}>
+                {char.name}
+              </option>
             ))}
           </select>
         </div>
       </div>
-      <svg ref={svgRef} className="" style={{ height: mheight, display: "block", margin: "auto" }}></svg>
+      <svg
+        ref={svgRef}
+        className=""
+        style={{ height: mheight, display: "block", margin: "auto" }}
+      ></svg>
       <div className="chart-conclusions pb-4">
         <h2>Conclusions</h2>
       </div>
       <div className="conclusions">
-        <p></p>
+        <p>{conclusions[selectedWineType][selectedCharacteristic]}</p>
       </div>
     </div>
   );
