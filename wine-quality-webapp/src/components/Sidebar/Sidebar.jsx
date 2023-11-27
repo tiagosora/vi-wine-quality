@@ -1,13 +1,14 @@
 import React from 'react';
 import barChart from '../../assets/barchart.png';
+import scatterChart from '../../assets/scatterchart.png';
 import logo from '../../assets/wine_logo_nb.png'
 import './Sidebar.css'
 
 const Sidebar = ({ onSelect }) => {
   const views = [
     { index: "2", name: "Bar Chart", img: barChart },
-    { index: "3", name: "Scatter Chart", img: barChart },
-    { index: "4", name: "Confusion Matrix", img: barChart },
+    { index: "3", name: "Scatter Chart", img: scatterChart },
+    { index: "4", name: "Correlation Matrix", img: barChart },
     { index: "5", name: "Radar Chart", img: barChart }
     // Add more views as needed, with respective images
   ];

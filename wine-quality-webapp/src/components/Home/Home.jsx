@@ -1,5 +1,5 @@
 import React from 'react';
-import banner from '../../assets/wine_banner.png'; // Update with the path to your image
+import banner from '../../assets/wine_banner.png';
 import './Home.css'
 import paulo from '../../assets/paulo.jpeg';
 import tiago from '../../assets/tiago.png';
