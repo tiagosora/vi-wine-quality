@@ -146,7 +146,7 @@ function App() {
   return (
     <div className="flex h-screen">
       <Sidebar onSelect={handleSelectView} />
-      <div className="content flex-grow p-8 bg-gray-100 overflow-auto">
+      <div className="flex-grow p-8 bg-gray-100 overflow-auto">
         {selectedView === "1" && <Home />}
         {selectedView === "2" && (
           <BarChart

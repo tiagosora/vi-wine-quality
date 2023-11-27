@@ -125,9 +125,9 @@ const RadarChart = ({ red_wine_dataset, white_wine_dataset }) => {
   }, [selectedValues, selectedValue, red_wine_dataset, white_wine_dataset]);
 
   return (
-    <div className="radarchart-content pl-20 p-4 shadow-lg rounded-lg">
+    <div className="content p-4 shadow-lg rounded-lg bg-white overflow-auto">
       <div className="chart-title">
-        <h2>Wine Radar Attributes</h2>
+        <h2>Wine Attributes Comparison</h2>
       </div>
       <div className="dropdown-container">
         <div className="dropdown">
@@ -177,7 +177,7 @@ const RadarChart = ({ red_wine_dataset, white_wine_dataset }) => {
         <h2>Conclusions</h2>
       </div>
       <div className="conclusions">
-      <p>{conclusions[selectedValue]}</p>
+        <div>{conclusions[selectedValue]}</div>
       </div>
     </div>
   );

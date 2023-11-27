@@ -43,7 +43,7 @@ const ScatterChart = ({ red_wine_dataset, white_wine_dataset }) => {
       total_sulfur_dioxide:
         "The total sulfur dioxide values of the red wine not are very well distributed, with the most heavy qualities having some pretty high values that are not very common in the other qualities.",
       density:
-        "The density values of the red wine to be basicley the same, not meaning much to quality.",
+        "The density values of the red wine to be basicaly the same, not meaning much to quality.",
       pH: "The ph values of the red wine seem the be pretty balaced in most of the qualities.",
       sulphates:
         "The sulphates values of the red wine are very well distributed between the qualities 5, 6, 7 and 8.",
@@ -169,7 +169,7 @@ const ScatterChart = ({ red_wine_dataset, white_wine_dataset }) => {
   return (
     <div className="content pl-20 p-4 shadow-lg rounded-lg bg-white overflow-auto">
       <div className="chart-title">
-        <h2>Wine Scatter Attributes</h2>
+        <h2>Attribute Influence on Wine Quality</h2>
       </div>
       <div className="dropdown-container">
         <div className="dropdown">
@@ -207,7 +207,7 @@ const ScatterChart = ({ red_wine_dataset, white_wine_dataset }) => {
         <h2>Conclusions</h2>
       </div>
       <div className="conclusions">
-        <p>{conclusions[selectedWineType][selectedCharacteristic]}</p>
+        <div>{conclusions[selectedWineType][selectedCharacteristic]}</div>
       </div>
     </div>
   );

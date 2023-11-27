@@ -2,27 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import "./Correlogram.css";
 
-const attributeAbbreviations = {
-  "fixed acidity": "FA",
-  "volatile acidity": "VA",
-  "citric acid": "CA",
-  "residual sugar": "RS",
-  chlorides: "C",
-  "free sulfur dioxide": "FSD",
-  "total sulfur dioxide": "TSD",
-  density: "D",
-  pH: "pH",
-  sulphates: "S",
-  alcohol: "A",
-  quality: "Q",
-};
-
-const conclusions = {
-  red: "In red wine, the Alcool and the Sulphates are the attributes that have the highest correlation with the quality of the wine. The higher the Alcool and the Sulphates, the higher the quality of the wine. On the other hand, the Volatile Acidity and the Free/Total Sulfur Dioxide are the attributes that have the lowest correlation with the quality of the wine. The higher the Volatile Acidity and the Free/Total Sulfur Dioxide, the lower the quality of the wine.",
-  white:
-    "In the white wine, the Alcool is the only attribute that have the high correlation with the quality of the wine. The higher the Alcool, the higher the quality of the wine. On the other hand, the Density, the Chlorides, Volatile Acidity and the Total Sulfur Dioxide are the attributes that have the lowest correlation with the quality of the wine. The higher they are, the lower the quality of the wine.",
-};
-
 const Correlogram = ({
   correlation_red_wine_dataset,
   correlation_white_wine_dataset,
@@ -33,6 +12,26 @@ const Correlogram = ({
     red: correlation_red_wine_dataset,
     white: correlation_white_wine_dataset,
   };
+  const attributeAbbreviations = {
+    "fixed acidity": "FA",
+    "volatile acidity": "VA",
+    "citric acid": "CA",
+    "residual sugar": "RS",
+    chlorides: "C",
+    "free sulfur dioxide": "FSD",
+    "total sulfur dioxide": "TSD",
+    density: "D",
+    pH: "pH",
+    sulphates: "S",
+    alcohol: "A",
+    quality: "Q",
+  };
+  
+  const conclusions = {
+    "red": "In red wine, the Alcool and the Sulphates are the attributes that have the highest correlation with the quality of the wine. The higher the Alcool and the Sulphates, the higher the quality of the wine. On the other hand, the Volatile Acidity and the Free/Total Sulfur Dioxide are the attributes that have the lowest correlation with the quality of the wine. The higher the Volatile Acidity and the Free/Total Sulfur Dioxide, the lower the quality of the wine.",
+    "white":
+      "In the white wine, the Alcool is the only attribute that have the high correlation with the quality of the wine. The higher the Alcool, the higher the quality of the wine. On the other hand, the Density, the Chlorides, Volatile Acidity and the Total Sulfur Dioxide are the attributes that have the lowest correlation with the quality of the wine. The higher they are, the lower the quality of the wine.",
+  };
 
   useEffect(() => {
     const data = datasets[selectedWineType];
@@ -41,7 +40,7 @@ const Correlogram = ({
     d3.select(svgRef.current).selectAll("*").remove();
 
     const margin = { top: 10, right: 50, bottom: 10, left: 20 };
-    const size = 600;
+    const size = 800;
     const svgSize = size + margin.left + margin.right;
     const cellSize = size / Math.sqrt(data.length);
 
@@ -188,11 +187,11 @@ const Correlogram = ({
           </div>
         </div>
       </div>
-      <div className="correlogram-chart-conclusions pb-4">
+      <div className="chart-conclusions pb-4">
         <h2>Conclusions</h2>
       </div>
-      <div className="correlogram-conclusions">
-        <p>{conclusions[selectedWineType]}</p>
+      <div className="conclusions">
+        <p>{String(conclusions[selectedWineType])}</p>
       </div>
     </div>
   );

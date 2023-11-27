@@ -208,7 +208,7 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
   return (
     <div className="content pl-20 p-4 shadow-lg rounded-lg bg-white overflow-auto">
       <div className="chart-title">
-        <h2>Wine Attributes</h2>
+        <h2>Wine Attribute Distribution</h2>
       </div>
       <div className="dropdown-container">
         <div className="dropdown">

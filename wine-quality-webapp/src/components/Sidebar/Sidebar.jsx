@@ -1,15 +1,17 @@
 import React from 'react';
 import barChart from '../../assets/barchart.png';
 import scatterChart from '../../assets/scatterchart.png';
+import correlogram from '../../assets/correlogram.png';
+import radarChart from '../../assets/radarchart.png';
 import logo from '../../assets/wine_logo_nb.png'
 import './Sidebar.css'
 
 const Sidebar = ({ onSelect }) => {
   const views = [
-    { index: "2", name: "Bar Chart", img: barChart },
-    { index: "3", name: "Scatter Chart", img: scatterChart },
-    { index: "4", name: "Correlation Matrix", img: barChart },
-    { index: "5", name: "Radar Chart", img: barChart }
+    { index: "2", name: "Distribution", img: barChart },
+    { index: "3", name: "Influence", img: scatterChart },
+    { index: "4", name: "Correlation", img: correlogram },
+    { index: "5", name: "Comparison", img: radarChart }
     // Add more views as needed, with respective images
   ];
 
@@ -18,6 +20,7 @@ const Sidebar = ({ onSelect }) => {
       <button
         className="home_text text-center font-semibold py-10 mb-10 p-4 border-b border-gray-700 hover:bg-gray-200 transition-colors duration-300 w-full"
         onClick={() => onSelect('1')}
+        style={{"color":"#8F1636"}}
       >
         Wine Quality
         <br />
