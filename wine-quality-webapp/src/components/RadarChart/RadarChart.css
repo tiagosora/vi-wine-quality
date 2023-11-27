@@ -1,0 +1,87 @@
+/* Adjust the content padding if necessary */
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 80px; /* Uniform padding on all sides */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: white;
+  overflow: auto;
+}
+
+.chart-title {
+  font-family: "Dancing Script", "Open Sans", sans-serif;
+  font-size: 300%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.controls-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 20px; /* Space between dropdown and checkboxes */
+  margin-bottom: 20px;
+}
+
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%; /* Set the dropdown to half width */
+  align-self: flex-end; /* Align to the right */
+}
+
+.custom-dropdown {
+  width: 50%; /* Make the dropdown fill its container */
+  padding: 8px;
+  margin-bottom: 10px; /* Space between dropdown and checkboxes */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.custom-checkbox {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px; /* Space between each checkbox */
+}
+
+.custom-checkbox label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top of the container */
+}
+
+.chart {
+  flex: 1; /* Takes up half of the container width */
+  padding-left: 80px; /* Add padding as needed */
+}
+
+.checkbox-container {
+  flex: 1; /* Takes up half of the container width */
+  display: flex;
+  flex-direction: column;
+  padding-left: 100px; /* Add padding as needed */
+  text-align: right; /* Align checkboxes to the right within their container */
+  align-items:self-start;
+}
+
+.chart-conclusions,
+.conclusions {
+  font-family: "Dancing Script", "Open Sans", sans-serif;
+  font-size: 300%;
+  text-align: center;
+}
+
+/* In your CSS file */
+.red-text {
+  color: #FF0000;
+}
+
+.white-text {
+  color: #008000;
+}
