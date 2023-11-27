@@ -1,12 +1,10 @@
 /* Adjust the content padding if necessary */
-.content {
+.radarchart-content {
   display: flex;
   flex-direction: column;
-  padding: 20px 80px; /* Uniform padding on all sides */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  background-color: white;
   overflow: auto;
+  background-color: white;
+  min-height: 100%;
 }
 
 .chart-title {
@@ -53,7 +51,8 @@
 .chart-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Align items to the top of the container */
+  align-items: flex-start;
+  min-height: 400px; /* Align items to the top of the container */
 }
 
 .chart {
@@ -68,13 +67,6 @@
   padding-left: 100px; /* Add padding as needed */
   text-align: right; /* Align checkboxes to the right within their container */
   align-items:self-start;
-}
-
-.chart-conclusions,
-.conclusions {
-  font-family: "Dancing Script", "Open Sans", sans-serif;
-  font-size: 300%;
-  text-align: center;
 }
 
 /* In your CSS file */

@@ -114,7 +114,7 @@ const RadarChart = ({ red_wine_dataset, white_wine_dataset }) => {
   }, [selectedValues, selectedValue, red_wine_dataset, white_wine_dataset]);
 
   return (
-    <div className="content">
+    <div className="radarchart-content pl-20 p-4 shadow-lg rounded-lg">
       <div className="chart-title">
         <h2>Wine Attributes</h2>
       </div>

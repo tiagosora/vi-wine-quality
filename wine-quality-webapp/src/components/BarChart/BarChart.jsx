@@ -4,14 +4,14 @@ import "./BarChart.css";
 
 const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
   const svgRef = useRef();
-  const [selectedCharacteristic, setSelectedCharacteristic] = useState('fixed_acidity');
+  const [selectedAttribute, setSelectedAttribute] = useState('fixed_acidity');
   const [selectedWineType, setSelectedWineType] = useState('red');
   const margin = { top: 20, right: 20, bottom: 40, left: 50 };
   const width = 800 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
   const mheight = height+margin.bottom+40
 
-  const characteristics = [
+  const attributes = [
     {key: "fixed_acidity", name: "Fixed Acidity"},
     {key: "volatile_acidity", name: "Volatile Acidity"},
     {key: "citric_acid", name: "Citric Acid"},
@@ -25,6 +25,37 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
     {key: "alcohol", name: "Alcohol"},
     {key: "quality", name: "Quality"},
   ];
+
+  const conclusions = {
+    "red": {
+      "fixed_acidity": "The fixed acidity values of the red wine are well distributed, from values such as 4.6 to values like 15.9, taking preference on values in range [6.6, 8.3] and reaching it's peak on 7.2 with a count of 67 wine regists.",
+      "volatile_acidity": "The volatile acidity values of the red wine are very well distributed, from values such as 0.12 to values like 1.52, taking preference on values in range [0.31, 0.69] and reaching it's peak on 0.6 with a count of 46 wine regists.",
+      "citric_acid": "The citric acid values of the red wine are not that well distributed, from values such as 0 to values like 0.79, taking preference on values in range [0, 0.25] and reaching it's peak on 0 with a count of 132 wine regists.",
+      "residual_sugar": "The residual sugar values of the red wine are not very well distributed, from values such as 0.9 to values like 15, taking preference on values in range [1.4, 2.8] and reaching it's peak on 2 with a count of 156 wine regists.",
+      "chlorides": "The chlorides values of the red wine are very well distributed, from values such as 0.012 to values like 0.611, taking preference on values in range [0.062, 0.095] and reaching it's peak on 0.08 with a count of 66 wine regists.",
+      "free_sulfur_dioxide": "The free sulfur dioxide values of the red wine are very well distributed, from values such as 1 to values like 72, taking preference on values in range [5, 15] and reaching it's peak on 6 with a count of 138 wine regists.",
+      "total_sulfur_dioxide": "The total sulfur dioxide values of the red wine are very well distributed, from values such as 6 to values like 289, taking preference on values in range [0.996, 0.9994] and reaching it's peak on 28 with a count of 43 wine regists.",
+      "density": "The density values of the red wine are very well distributed, from values such as 0.99007 to values like 1.00369, taking preference on values in range [10, 38] and reaching it's peak on 0.9972 with a count of 36 wine regists.",
+      "pH": "The ph values of the red wine are very well distributed, from values such as 2.74 to values like 4.01, taking preference on values in range [3.15, 3.42] and reaching it's peak on 7.2 with a count of 67 wine regists.",
+      "sulphates": "The sulphates values of the red wine are very well distributed, from values such as 0.33 to values like 2, taking preference on values in range [0.52, 0.63] and reaching it's peak on 0.6 with a count of 69 wine regists.",
+      "alcohol": "The alcohol values of the red wine are very well distributed, from values such as 8.4 to values like 14.9, taking preference on values in range [9.2, 11] and reaching it's peak on 9.5 with a count of 139 wine regists.",
+      "quality": "The quality values of the red wine are very well distributed, from values like 3 to 8, taking preference on the values 5 and 6 and reaching it's peak on 5 with a count of 681 wine regists.",
+    },
+    "white": {
+      "fixed_acidity": "The fixed acidity values of the white wine are well distributed, from values such as 0 to values like 14.2, taking preference on values in range [6.0, 7.4] and reaching it's peak on 6.8 with a count of 308 wine regists.",
+      "volatile_acidity": "The volatile acidity values of the white wine are very well distributed, from values such as 0.08 to values like 1.1, taking preference on values in range [0.16, 0.32] and reaching it's peak on 0.28 with a count of 263 wine regists.",
+      "citric_acid": "The citric acid values of the white wine are not that well distributed, from values such as 0 to values like 1.66, taking preference on values in range [0.24, 0.49] and reaching it's peak on 0.3 with a count of 307 wine regists.",
+      "residual_sugar": "The residual sugar values of the white wine are not very well distributed, from values such as 0.6 to values like 65.8, taking preference on values in range [1.0, 2.0] and reaching it's peak on 1.2 with a count of 187 wine regists.",
+      "chlorides": "The chlorides values of the white wine are very well distributed, from values such as 0.009 to values like 0.346, taking preference on values in range [0.03, 0.056] and reaching it's peak on 0.44 with a count of 182 wine regists.",
+      "free_sulfur_dioxide": "The free sulfur dioxide values of the white wine are very well distributed, from values such as 2 to values like 289, taking preference on values in range [17, 45] and reaching it's peak on 29 with a count of 160 wine regists.",
+      "total_sulfur_dioxide": "The total sulfur dioxide values of the white wine are very well distributed, from values such as 9 to values like 440, taking preference on values in range [87, 189] and reaching it's peak on 11 with a count of 69 wine regists.",
+      "density": "The density values of the white wine are very well distributed, from values such as 0.98711 to values like 1.00369, taking no preference on values and reaching it's peak on 0.992 with a count of 64 wine regists.",
+      "pH": "The ph values of the white wine are very well distributed, from values such as 2.72 to values like 3.82, taking preference on values in range [3.04, 3.3] and reaching it's peak on 3.14 with a count of 172 wine regists.",
+      "sulphates": "The sulphates values of the white wine are very well distributed, from values such as 0.22 to values like 1.08, taking preference on values in range [0.37, 0.54] and reaching it's peak on 0.5 with a count of 249 wine regists.",
+      "alcohol": "The alcohol values of the white wine are very well distributed, from values such as 8 to values like 14.2, taking preference on values in range [9, 10.5] and reaching it's peak on 9.4 with a count of 229 wine regists.",
+      "quality": "The quality values of the white wine are very well distributed, from values like 3 to 9, taking preference on the values 5 and 6 and reaching it's peak on 6 with a count of 2198 wine regists.",
+    }
+  }
 
   useEffect(() => {
     if (!svgRef.current || !red_wine_dataset || !white_wine_dataset) {
@@ -45,8 +76,8 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
     const data =
       selectedWineType === "red" ? red_wine_dataset : white_wine_dataset;
     const processedData = data.map((d) => ({
-      characteristic: d[selectedCharacteristic],
-      value: +d[selectedCharacteristic],
+      attribute: d[selectedAttribute],
+      value: +d[selectedAttribute],
     }));
 
     let values_dict = {};
@@ -65,6 +96,8 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
     values.sort(function(a,b) {
       return a.x-b.x
     });
+
+    console.log(values)
 
     const xScale = d3
       .scaleBand()
@@ -101,21 +134,21 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
       .attr("y", (d) => yScale(d.y))
       .attr("width", xScale.bandwidth())
       .attr("height", (d) => height - yScale(d.y))
-      .attr("fill", "#69b3a2");
+      .attr("fill", "#8F1636");
 
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
 
     // X-axis label
-    const xAxisLabel = chartGroup
+    chartGroup
       .append("text")
       .attr("x", width / 2)
-      .attr("y", height + margin.bottom - 10)
+      .attr("y", height + margin.bottom)
       .style("text-anchor", "middle")
-      .text("Characteristic");
+      .text("Attribute");
 
     // Y-axis label
-    const yAxisLabel = chartGroup
+    chartGroup
       .append("text")
       .attr("x", -height / 2)
       .attr("y", -margin.left)
@@ -134,7 +167,7 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
     // Inside your useEffect
     const zoom = d3
       .zoom()
-      .scaleExtent([1, 20])
+      .scaleExtent([1, 40])
       .extent([
         [0, 0],
         [width, height],
@@ -152,22 +185,7 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
           .attr("width", xScale.bandwidth());
         gX.call(xAxis.scale(xScale));
 
-        // Update x-axis label rotation based on the zoom level
-        const zoomLevel = event.transform.k;
-        if (zoomLevel <= 2) {
-          xAxisLabel.attr("transform", null); // Reset rotation
-        } else {
-          xAxisLabel.attr(
-            "transform",
-            `translate(${width / 2},${height + margin.bottom - 10}) rotate(-45)`
-          );
-        }
-
-        // Check if X-axis goes out of bounds and adjust the domain
         const xDomain = xScale.domain().map((d) => {
-          // const scaledX = xScale(d);
-          // if (scaledX < 0) return xScale.invert(0);
-          // if (scaledX > width) return xScale.invert(width);
           return d;
         });
 
@@ -181,7 +199,7 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
       svg.on(".zoom", null);
     };
   }, [
-    selectedCharacteristic,
+    selectedAttribute,
     selectedWineType,
     red_wine_dataset,
     white_wine_dataset,
@@ -201,9 +219,9 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
           </select>
         </div>
         <div className="dropdown">
-          <label>Characteristic:</label>
-          <select value={selectedCharacteristic} onChange={e => setSelectedCharacteristic(e.target.value)} className="custom-dropdown">
-            {characteristics.map(char => (
+          <label>Attribute:</label>
+          <select value={selectedAttribute} onChange={e => setSelectedAttribute(e.target.value)} className="custom-dropdown">
+            {attributes.map(char => (
               <option key={char.key} value={char.key}>{char.name}</option>
             ))}
           </select>
@@ -214,7 +232,7 @@ const BarChart = ({ red_wine_dataset, white_wine_dataset }) => {
         <h2>Conclusions</h2>
       </div>
       <div className="conclusions">
-        <p></p>
+        <p>{conclusions[selectedWineType][selectedAttribute]}</p>
       </div>
     </div>
   );

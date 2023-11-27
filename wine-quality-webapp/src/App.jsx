@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Home from "./components/Home/Home";
+import Correlogram from "./components/Correlogram/Correlogram";
 import BarChart from "./components/BarChart/BarChart";
 import RadarChart from "./components/RadarChart/RadarChart";
 import "./App.css";
@@ -8,9 +9,12 @@ import papaparse from "papaparse";
 import ScatterChart from "./components/ScatterPlot/ScatterPlot";
 
 function App() {
-  const [selectedView, setSelectedView] = useState("2");
+  const [selectedView, setSelectedView] = useState("1");
   const [red_wine_dataset, setRedWine] = useState(null);
   const [white_wine_dataset, setWhiteWine] = useState(null);
+  const [correlation_red_wine_dataset, setCorrelationRedWine] = useState(null);
+  const [correlation_white_wine_dataset, setCorrelationWhiteWine] =
+    useState(null);
 
   useEffect(() => {
     if (red_wine_dataset == null && white_wine_dataset == null) {
@@ -64,10 +68,76 @@ function App() {
           setWhiteWine(white_values);
         },
       });
+      let correlation_red_values = [];
+      papaparse.parse("../data/correlation_red_wine_dataset.csv", {
+        download: true,
+        complete: function (input) {
+          let parameters = [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol",
+            "quality",
+          ];
+          for (let i = 0; i < input.data.length; i++) {
+            if (i !== 0) {
+              let x = input.data[i][0];
+              for (let j = 1; j < input.data[i].length; j++) {
+                correlation_red_values.push({
+                  x: x,
+                  y: parameters[j - 1],
+                  value: input.data[i][j],
+                });
+              }
+            }
+          }
+          setCorrelationRedWine(correlation_red_values);
+        },
+      });
+      let correlation_white_values = [];
+      papaparse.parse("../data/correlation_white_wine_dataset.csv", {
+        download: true,
+        complete: function (input) {
+          let parameters = [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol",
+            "quality",
+          ];
+          for (let i = 0; i < input.data.length; i++) {
+            if (i !== 0) {
+              let x = input.data[i][0];
+              for (let j = 1; j < input.data[i].length; j++) {
+                correlation_white_values.push({
+                  x: x,
+                  y: parameters[j - 1],
+                  value: input.data[i][j],
+                });
+              }
+            }
+          }
+          setCorrelationWhiteWine(correlation_white_values);
+        },
+      });
     }
   });
 
-  console.log(white_wine_dataset);
+  // console.log(correlation_red_wine_dataset)
 
   const handleSelectView = (view) => {
     setSelectedView(view);
@@ -91,9 +161,10 @@ function App() {
           ></ScatterChart>
         )}
         {selectedView === "4" && (
-          <div className="p-4 shadow-lg rounded-lg bg-white">
-            Content for View 4
-          </div>
+          <Correlogram
+            correlation_red_wine_dataset={correlation_red_wine_dataset}
+            correlation_white_wine_dataset={correlation_white_wine_dataset}
+          />
         )}
         {selectedView === "5" && (
           <RadarChart
