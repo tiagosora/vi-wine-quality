@@ -5,6 +5,7 @@ import BarChart from "./components/BarChart/BarChart";
 import RadarChart from "./components/RadarChart/RadarChart";
 import "./App.css";
 import papaparse from "papaparse";
+import ScatterChart from "./components/ScatterPlot/ScatterPlot";
 
 function App() {
   const [selectedView, setSelectedView] = useState("2");
@@ -84,9 +85,10 @@ function App() {
           />
         )}
         {selectedView === "3" && (
-          <div className="p-4 shadow-lg rounded-lg bg-white">
-            Content for View 3
-          </div>
+          <ScatterChart
+            white_wine_dataset={white_wine_dataset}
+            red_wine_dataset={red_wine_dataset}
+          ></ScatterChart>
         )}
         {selectedView === "4" && (
           <div className="p-4 shadow-lg rounded-lg bg-white">
